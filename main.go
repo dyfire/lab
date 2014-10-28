@@ -12,18 +12,19 @@ func main() {
 	// ch := make(chan int)
 	// go func(ch chan int) {
 	// ch <- 1
-	http.HandleFunc("/", tokenHandler)
+	http.HandleFunc("/", homeHandler)
+	http.HandleFunc("/token", tokenHandler)
 	http.ListenAndServe(":80", nil)
 	// }(ch)
 	// <-ch
 }
 
-func tokenHandler(w http.ResponseWriter, r *http.Request) {
+func homehandler(w http.ResponseWriter, r *http.Request) {
 	s := sae.NewOAuth()
 
-	redirect_uri := "http://www.52niuniu.net"
+	redirect_uri := "http://www.52niuniu.net/token"
 	response_type := "code"
-	state := "token"
+	state := ""
 	display := ""
 	str := s.GetAuthorizeURL(redirect_uri, response_type, state, display)
 	fmt.Println(str)
@@ -32,4 +33,8 @@ func tokenHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+}
+
+func tokenHandler(w http.ResponseWriter, r *http.Request) {
+
 }
