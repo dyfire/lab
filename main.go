@@ -16,11 +16,10 @@ func main() {
 	str := s.GetAuthorizeURL(redirect_uri, response_type, state, display)
 	fmt.Println(str)
 
-
 	http.ListenAndServe("/token", tokenHandler)
 
 }
 
 func tokenHandler() {
-	sae. 
+	sae.NewOAuth()
 }
