@@ -16,7 +16,9 @@ func main() {
 	str := s.GetAuthorizeURL(redirect_uri, response_type, state, display)
 	fmt.Println(str)
 
-	http.ListenAndServe("/token", tokenHandler)
+	go func() {
+		http.ListenAndServe("/token", tokenHandler)
+	}()
 
 }
 
