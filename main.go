@@ -22,6 +22,7 @@ func main() {
 	http.HandleFunc("/token", tokenHandler)
 	http.HandleFunc("/user", userHandler)
 	http.HandleFunc("/friends", friendHandler)
+	http.HandleFunc("/upload", uploadHandler)
 	http.ListenAndServe(":8080", nil)
 	// }(ch)
 	// <-ch
@@ -53,7 +54,7 @@ func tokenHandler(w http.ResponseWriter, r *http.Request) {
 
 	to = token
 
-	t, err := template.New("foo").Parse(`{{define "T"}}<a href="/user">用户信息</a> <a href="/friends?cursor=0">关系</a>{{end}}`)
+	t, err := template.New("foo").Parse(`{{define "T"}}<a href="/user">用户信息</a> <a href="/friends?cursor=0">关系</a><a href="/upload">发布</a>{{end}}`)
 	err = t.ExecuteTemplate(w, "T", "hello")
 	if err != nil {
 		panic(err.Error())
@@ -73,6 +74,13 @@ func friendHandler(w http.ResponseWriter, r *http.Request) {
 	count := "20"
 	cursor := r.Form.Get("cursor")
 	t := oauth.FriendshipsFriends(to.Uid, count, cursor)
+	fmt.Println(t.(map[string]interface{}))
+	fmt.Println(t)
+}
+
+func uploadHandler(w http.ResponseWriter, r *http.Request) {
+	content := "just golang test"
+	t := oauth.Upload(content)
 	fmt.Println(t.(map[string]interface{}))
 	fmt.Println(t)
 }
